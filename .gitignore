@@ -31,3 +31,4 @@ manifest.mf
 *.ipr
 *.iws
 .idea/
+*.jar
