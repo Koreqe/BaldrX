@@ -12,6 +12,7 @@ import net.rifttech.baldr.util.velocity.Velocity;
 import net.rifttech.baldr.wrapper.impl.clientbound.EntityVelocityWrapper;
 import net.rifttech.baldr.wrapper.impl.clientbound.PositionWrapper;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.Deque;
@@ -39,6 +40,13 @@ public class MovementTracker extends PlayerTracker {
         boolean looked = flying.h();
 
         actionTracker.setLastAttackTicks(actionTracker.getLastAttackTicks() + 1);
+
+        if(actionTracker.getTarget() != null) {
+            if (playerData.getPreviousLocations().size() >= 20) {
+                playerData.getPreviousLocations().remove(0);
+            }
+            playerData.getPreviousLocations().add(new CustomLocation(actionTracker.getTarget().getEyeLocation().getX(), actionTracker.getTarget().getEyeLocation().getY(), actionTracker.getTarget().getEyeLocation().getZ(), actionTracker.getTarget().getEyeLocation().getYaw(), actionTracker.getTarget().getEyeLocation().getPitch()));
+        }
 
         if (lastLocation != null) {
             if (!moved) {
@@ -111,4 +119,5 @@ public class MovementTracker extends PlayerTracker {
 
         velocities.add(new Velocity(velocityX, velocityY, velocityZ));
     }
+
 }

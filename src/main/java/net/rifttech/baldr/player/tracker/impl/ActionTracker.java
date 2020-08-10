@@ -51,6 +51,7 @@ public class ActionTracker extends PlayerTracker {
         } else {
             // We don't care about non player entities
             lastTargetData = null;
+            target = null;
         }
 
     }

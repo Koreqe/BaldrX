@@ -14,6 +14,10 @@ public class AimAssistB extends RotationCheck {
         super(playerData, "AimAssist B");
     }
 
+    /*
+    @Author Johannes 10/8/2020
+     */
+
     @Override
     public void handle(Player player, MovementUpdate update) {
 

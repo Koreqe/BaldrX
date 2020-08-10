@@ -20,25 +20,38 @@ public class ReachA extends PacketCheck {
     public ReachA(PlayerData playerData) {
         super(playerData, "Reach A");
     }
+    /*
+    @Author Johannes 10/8/2020
+     */
 
     @Override
     public void handle(Player player, Packet<PacketListenerPlayIn> packet) {
         if (packet instanceof PacketPlayInFlying) {
-            if(actionTracker.getLastAttackTicks() <= 1 && !player.getGameMode().equals(GameMode.CREATIVE)) {
+            if(actionTracker.getLastAttackTicks() <= 1
+                    && actionTracker.getTarget() != null
+                    && !player.getGameMode().equals(GameMode.CREATIVE)
+                    && playerData.getPreviousLocations().size() >= 10) {
 
-                Player target = actionTracker.getTarget();
+                Vector origin = player.getEyeLocation().toVector();
 
-                float distanceX = (float) (player.getEyeLocation().getX() - target.getEyeLocation().getX());
-                float distanceZ = (float) (player.getEyeLocation().getZ() - target.getEyeLocation().getZ());
+                double reach = playerData.getPreviousLocations().stream().mapToDouble(loc -> {
+                    double x = loc.getX();
+                    double z = loc.getY();
 
-                float reach = (distanceX - distanceZ) - 0.56569f;
+                    float distanceX = (float) (origin.getX() - z);
+                    float distanceZ = (float) (origin.getZ() - x);
 
-                if(reach > 3.1) {
-                    if ((violations += 10) > 45) {
+                    return (distanceX - distanceZ) - 0.56569f;
+
+                }).min().orElse(-1);
+
+                if(reach > 3.3) {
+                    if (++violations > 10) {
+                        decreaseVl(5);
                         alert(player, String.format("R %.3f", reach));
                     }
                 } else {
-                    decreaseVl(8);
+                    decreaseVl(1);
                 }
             }
         }

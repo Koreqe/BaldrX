@@ -1,12 +1,14 @@
 package net.rifttech.baldr.player;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketListenerPlayIn;
 import net.minecraft.server.v1_8_R3.PacketListenerPlayOut;
 import net.rifttech.baldr.check.CheckData;
 import net.rifttech.baldr.player.tracker.PlayerTracker;
 import net.rifttech.baldr.player.tracker.impl.*;
+import net.rifttech.baldr.util.location.CustomLocation;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -14,9 +16,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
+@Setter
 public class PlayerData {
     private static final Map<Field, Constructor<?>> CONSTRUCTORS = new HashMap<>();
 
@@ -45,6 +50,8 @@ public class PlayerData {
     private PacketTracker packetTracker; // needs to be updated last
 
     private final CheckData checkData = new CheckData();
+
+    private List<CustomLocation> previousLocations = new CopyOnWriteArrayList<>();
 
     public PlayerData(Player player) {
         id = player.getEntityId();

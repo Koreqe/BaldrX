@@ -14,6 +14,10 @@ public class AimAssistA extends RotationCheck {
         super(playerData, "AimAssist A");
     }
 
+    /*
+    @Author Johannes 10/8/2020
+     */
+
     @Override
     public void handle(Player player, MovementUpdate update) {
 
@@ -21,7 +25,7 @@ public class AimAssistA extends RotationCheck {
 
         if(actionTracker.getLastAttackTicks() > 3) return;
 
-        if(diffYaw % 1.0 == 0.0) {
+        if(diffYaw % 1.0 == 0.0 && diffYaw != 0) {
             if(++violations > 5) {
                 alert(player, String.format("YAW %.1f", diffYaw));
             }
