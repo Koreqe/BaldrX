@@ -25,7 +25,7 @@ public class FlyA extends PositionCheck {
     public void handle(Player player, MovementUpdate update) {
         double offsetY = update.getTo().getY() - update.getFrom().getY();
 
-        if (update.getTo().getY() % ON_GROUND == 0 || movementTracker.isTeleporting() || Math.abs(offsetY) + 0.0980000019 < 0.05 || isClimbableBlock(player.getLocation().getBlock())) {
+        if (update.getTo().getY() % ON_GROUND == 0 || movementTracker.isTeleporting() || Math.abs(offsetY) + 0.0980000019 < 0.05 || isClimbableBlock(player.getLocation().getBlock()) || isInLiquid(player.getLocation().getBlock())) {
             airTicks = 0;
             return;
         }
@@ -47,5 +47,9 @@ public class FlyA extends PositionCheck {
 
     private boolean isClimbableBlock(Block block) {
         return block.getType().toString().contains("LADDER") || block.getType().toString().contains("VINE");
+    }
+
+    private boolean isInLiquid(Block block) {
+        return block.getType().toString().contains("WATER") || block.getType().toString().contains("LAVA");
     }
 }

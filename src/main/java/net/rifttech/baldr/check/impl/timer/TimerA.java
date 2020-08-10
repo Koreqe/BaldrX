@@ -34,7 +34,7 @@ public class TimerA extends PacketCheck {
                     double average = getAverage(delays);
                     double timerSpeed = 50D / average;
 
-                    if (timerSpeed >= 1.005) {
+                    if (timerSpeed >= 1.01) {
                         if ((violations += 10) > 35) {
                             alert(player, String.format("AVG %.1f, TS %.2f", average, timerSpeed));
                         }

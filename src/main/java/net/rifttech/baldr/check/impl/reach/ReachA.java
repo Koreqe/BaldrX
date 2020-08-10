@@ -28,6 +28,7 @@ public class ReachA extends PacketCheck {
     public ReachA(PlayerData playerData) {
         super(playerData, "Reach A");
     }
+
     /*
     @Author Johannes 10/8/2020
      */
