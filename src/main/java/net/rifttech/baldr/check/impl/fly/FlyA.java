@@ -4,6 +4,7 @@ import net.rifttech.baldr.check.type.movement.PositionCheck;
 import net.rifttech.baldr.player.PlayerData;
 import net.rifttech.baldr.player.tracker.impl.MovementTracker;
 import net.rifttech.baldr.util.update.MovementUpdate;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 /**
@@ -24,7 +25,7 @@ public class FlyA extends PositionCheck {
     public void handle(Player player, MovementUpdate update) {
         double offsetY = update.getTo().getY() - update.getFrom().getY();
 
-        if (update.getTo().getY() % ON_GROUND == 0 || movementTracker.isTeleporting() || Math.abs(offsetY) + 0.0980000019 < 0.05) {
+        if (update.getTo().getY() % ON_GROUND == 0 || movementTracker.isTeleporting() || Math.abs(offsetY) + 0.0980000019 < 0.05 || isClimbableBlock(player.getLocation().getBlock())) {
             airTicks = 0;
             return;
         }
@@ -42,5 +43,9 @@ public class FlyA extends PositionCheck {
         }
 
         lastOffsetY = offsetY;
+    }
+
+    private boolean isClimbableBlock(Block block) {
+        return block.getType().toString().contains("LADDER") || block.getType().toString().contains("VINE");
     }
 }
