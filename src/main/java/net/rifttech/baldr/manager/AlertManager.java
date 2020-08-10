@@ -25,7 +25,7 @@ public class AlertManager {
         Schedulers.async().run(() -> {
             check.setViolations(check.getViolations() + 1);
 
-            String message = details + " " + check.getViolations();
+            String message = details + " §7(x§f" + check.getViolations() + "§7)";
             
             alerts.stream()
                     .map(Bukkit::getPlayer)

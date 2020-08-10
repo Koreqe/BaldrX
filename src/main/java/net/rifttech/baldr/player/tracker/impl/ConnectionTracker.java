@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTransaction;
 import net.rifttech.baldr.player.PlayerData;
 import net.rifttech.baldr.player.tracker.PlayerTracker;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -40,7 +41,7 @@ public class ConnectionTracker extends PlayerTracker {
     }
 
     public void handleTransaction(short id) {
-        if (id < 0)
+        if (id > 0)
             return;
 
         if (transactionTimes.containsKey(id)) {

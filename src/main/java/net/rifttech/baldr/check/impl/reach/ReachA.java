@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class ReachA extends PacketCheck {
 
     private final ActionTracker actionTracker = playerData.getActionTracker();
+    private final MovementTracker movementTracker = playerData.getMovementTracker();
     private final ConnectionTracker connectionTracker = playerData.getConnectionTracker();
 
     public ReachA(PlayerData playerData) {
@@ -37,18 +38,19 @@ public class ReachA extends PacketCheck {
             if(actionTracker.getLastAttackTicks() <= 1
                     && actionTracker.getTarget() != null
                     && !player.getGameMode().equals(GameMode.CREATIVE)
+                    && !movementTracker.isTeleporting()
                     && playerData.getEntityPastLocations().getPreviousLocations().size() >= 10) {
 
                 Vector origin = player.getLocation().toVector();
 
                 List<Vector> pastLocation = playerData.entityPastLocations.getEstimatedLocation(connectionTracker.getTransactionPing(), System.currentTimeMillis(), 125 + Math.abs(connectionTracker.getTransactionPing() - connectionTracker.getLastTransactionPing())).stream().map(CustomLocation::toVector).collect(Collectors.toList());
 
-                double reach = (float) pastLocation.stream().mapToDouble(vec -> vec.clone().setY(0).distance(origin.clone().setY(0))).min().orElse(0);
+                double reach = (float) pastLocation.stream().mapToDouble(vec -> vec.clone().setY(0).distance(origin.clone().setY(0)) - 0.56569f).min().orElse(0); //Expecting hit was hit to diagonal point of hitbox
 
-                reach -= 0.56569f;
+                reach -= 0.065; // just to make the check a bit more lenient
 
-                if(reach > 3.5) {
-                    if (++violations > 5) {
+                if(reach > 3.0) {
+                    if (++violations >= 5) {
                         alert(player, String.format("R %.3f", reach));
                     }
                 } else {
