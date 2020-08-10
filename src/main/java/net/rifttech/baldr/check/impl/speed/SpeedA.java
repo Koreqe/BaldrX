@@ -41,11 +41,11 @@ public class SpeedA extends PositionCheck {
         double offsetY = to.getY() - from.getY();
 
         double movementSpeed = statusTracker.getMovementSpeed();
-        double jumpHeight = 0.42 + statusTracker.getJumpBoost() * 0.1;
+        double jumpHeight = 0.42 + statusTracker.getJumpBoost() * 0.1; //Vanilla minecraft jump height
 
         if (entityPlayer.onGround) {
             if(actionTracker.isSprinting()) {
-                movementSpeed *= 1.3;
+                movementSpeed *= 1.3; //Sprint addition
 
                 if (getMoveAngle(from, to) > 90) // The player is sprinting in another direction
                     movementSpeed /= 1.05;
@@ -53,7 +53,7 @@ public class SpeedA extends PositionCheck {
 
             movementSpeed *= 0.16277136 / Math.pow(blockFriction, 3);
 
-            if (offsetY > 0.00001 && offsetY < jumpHeight) {
+            if (offsetY > 0.00001 && offsetY <= jumpHeight) {
                 movementSpeed += 0.2; // jump speed boost
             }
         } else {

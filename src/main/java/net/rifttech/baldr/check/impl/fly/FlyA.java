@@ -29,7 +29,7 @@ public class FlyA extends PositionCheck {
         double estimatedOffsetY = (lastOffsetY * VERTICAL_AIR_FRICTION) - 0.08;
 
         if (Math.abs(estimatedOffsetY - offsetY) > 0.002 && !movementTracker.isTeleporting()) {
-            if ((violations += 10) > 45) {
+            if ((violations += 10) > 55) {
                 alert(player, String.format("O %.3f", offsetY));
             }
         } else {
