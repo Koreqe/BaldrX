@@ -33,7 +33,7 @@ public class ReachA extends PacketCheck {
 
                 float reach = (distanceX - distanceZ) - 0.56569f;
 
-                if(reach > 3) {
+                if(reach > 3.1) {
                     if ((violations += 10) > 45) {
                         alert(player, String.format("R %.3f", reach));
                     }

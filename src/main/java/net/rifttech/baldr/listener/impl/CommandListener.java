@@ -37,7 +37,7 @@ public class CommandListener implements Listener {
                             .findFirst()
                             .ifPresent(command -> command.handle(player, ctx));
                 })
-                .register("ac", "anticheat", "baldr");
+                .register("ac", "anticheat", "baldr", "baldrx");
     }
 
     private void sendHelpCommands(Player player) {

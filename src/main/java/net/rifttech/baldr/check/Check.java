@@ -33,13 +33,13 @@ public abstract class Check<T> implements MathHelper, TrigHelper {
     public void alert(Player player) {
         alertTimes.add(System.currentTimeMillis());
 
-        alertManager.handleAlert(this, String.format("§c[AC] §f%s §7failed §c%s §7VL", player.getName(), name));
+        alertManager.handleAlert(this, String.format("§c[BaldrX] §f%s §7failed §c%s §7VL", player.getName(), name));
     }
 
     public void alert(Player player, String details) {
         alertTimes.add(System.currentTimeMillis());
 
-        alertManager.handleAlert(this, String.format("§c[AC] §f%s §7failed §c%s §7%s VL", player.getName(), name, details));
+        alertManager.handleAlert(this, String.format("§c[BaldrX] §f%s §7failed §c%s §7%s VL", player.getName(), name, details));
     }
 
     protected void decreaseVl(int decrement) {

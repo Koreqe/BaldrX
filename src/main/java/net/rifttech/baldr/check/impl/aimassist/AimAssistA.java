@@ -19,7 +19,7 @@ public class AimAssistA extends RotationCheck {
 
         float diffYaw = Math.abs(update.getTo().getYaw() - update.getFrom().getYaw());
 
-        if(actionTracker.getLastAttackTicks() > 5) return;
+        if(actionTracker.getLastAttackTicks() > 3) return;
 
         if(diffYaw % 1.0 == 0.0) {
             if(++violations > 5) {
