@@ -19,7 +19,7 @@ public class ConnectionTracker extends PlayerTracker {
     private short transactionID = Short.MIN_VALUE;
 
     @Getter
-    private long transactionPing;
+    private long transactionPing, lastTransactionPing;
 
     private final Map<Integer, Long> keepAliveTimes = new HashMap<>();
 
@@ -44,6 +44,7 @@ public class ConnectionTracker extends PlayerTracker {
             return;
 
         if (transactionTimes.containsKey(id)) {
+            lastTransactionPing = transactionPing;
             transactionPing = System.currentTimeMillis() - transactionTimes.get(id);
         } else {
             // The player sent a transaction we didn't send them, could flag for it

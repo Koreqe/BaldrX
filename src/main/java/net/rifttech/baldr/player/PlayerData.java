@@ -9,6 +9,7 @@ import net.rifttech.baldr.check.CheckData;
 import net.rifttech.baldr.player.tracker.PlayerTracker;
 import net.rifttech.baldr.player.tracker.impl.*;
 import net.rifttech.baldr.util.location.CustomLocation;
+import net.rifttech.baldr.util.location.PastLocation;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -51,7 +52,7 @@ public class PlayerData {
 
     private final CheckData checkData = new CheckData();
 
-    private List<CustomLocation> previousLocations = new CopyOnWriteArrayList<>();
+    public PastLocation entityPastLocations = new PastLocation();
 
     public PlayerData(Player player) {
         id = player.getEntityId();
