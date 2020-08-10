@@ -27,9 +27,12 @@ public class CommandListener implements Listener {
                     Optional<String> value = argument.value();
 
                     if (!value.isPresent()) {
-                        sendHelpCommands(player);
-
-                        return;
+                        if (player.isOp() || player.hasPermission(PermissionNode.ALERTS) || player.hasPermission(PermissionNode.MOD)) {
+                            sendHelpCommands(player);
+                            return;
+                        } else {
+                            player.sendMessage("§7This server is running §4BaldrX §7by §cSimon §7& §cJohannes");
+                        }
                     }
 
                     commandManager.getCommands().stream()
@@ -48,7 +51,7 @@ public class CommandListener implements Listener {
         sb.append("§4[BaldrX] §cCommands").append("\n");
 
         commandManager.getCommands().forEach(command -> {
-            String message = String.format(" §7- §c/%s §7- %s", command.getName(), command.getDescription());
+            String message = String.format(" §7- §c/baldr %s §7- %s", command.getName(), command.getDescription());
 
             sb.append(message).append("\n");
         });
