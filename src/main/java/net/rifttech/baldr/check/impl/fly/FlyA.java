@@ -23,13 +23,13 @@ public class FlyA extends PositionCheck {
     public void handle(Player player, MovementUpdate update) {
         double offsetY = update.getTo().getY() - update.getFrom().getY();
 
-        if (update.getTo().getY() % ON_GROUND == 0 || movementTracker.isTeleporting())
+        if (update.getTo().getY() % ON_GROUND == 0 || movementTracker.isTeleporting() || Math.abs(offsetY) + 0.0980000019 < 0.05)
             return;
 
-        double estimatedOffsetY = (lastOffsetY - 0.08) * VERTICAL_AIR_FRICTION;
+        double estimatedOffsetY = (lastOffsetY * VERTICAL_AIR_FRICTION) - 0.08;
 
-        if (Math.abs(estimatedOffsetY - offsetY) > 0.005) {
-            if ((violations += 10) > 40) {
+        if (Math.abs(estimatedOffsetY - offsetY) > 0.002 && !movementTracker.isTeleporting()) {
+            if ((violations += 10) > 45) {
                 alert(player, String.format("O %.3f", offsetY));
             }
         } else {

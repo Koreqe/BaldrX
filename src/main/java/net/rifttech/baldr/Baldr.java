@@ -60,8 +60,7 @@ public class Baldr extends ExtendedJavaPlugin {
 
     private void registerTasks() {
         Schedulers.sync().runRepeating(() -> {
-            playerDataManager.getPlayers()
-                    .forEach(playerData -> playerData.getPacketTracker().handleTick());
+            playerDataManager.getPlayers().forEach(playerData -> playerData.getPacketTracker().handleTick());
         }, 1L, 1L);
     }
 

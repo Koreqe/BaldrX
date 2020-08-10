@@ -46,6 +46,8 @@ public class PacketTracker extends PlayerTracker {
             int id = ((PacketPlayInKeepAlive) packet).a();
 
             connectionTracker.handleInboundKeepAlive(id);
+        } else if (packet instanceof PacketPlayInEntityAction) {
+            actionTracker.handleEntityAction((PacketPlayInEntityAction) packet);
         }
 
         checkData.getPacketChecks().forEach(check -> check.handle(player, packet));

@@ -4,6 +4,7 @@ import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.rifttech.baldr.check.type.movement.PositionCheck;
 import net.rifttech.baldr.player.PlayerData;
+import net.rifttech.baldr.player.tracker.impl.ActionTracker;
 import net.rifttech.baldr.player.tracker.impl.MovementTracker;
 import net.rifttech.baldr.player.tracker.impl.StatusTracker;
 import net.rifttech.baldr.util.location.CustomLocation;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Player;
 public class SpeedA extends PositionCheck {
     private final StatusTracker statusTracker = playerData.getStatusTracker();
     private final MovementTracker movementTracker = playerData.getMovementTracker();
+    private final ActionTracker actionTracker = playerData.getActionTracker();
 
     private double lastOffsetH;
     private double blockFriction = 0.91;
@@ -42,14 +44,12 @@ public class SpeedA extends PositionCheck {
         double jumpHeight = 0.42 + statusTracker.getJumpBoost() * 0.1;
 
         if (entityPlayer.onGround) {
-            /*
-             * Don't always assume the player is sprinting, it's better to
-             * make a condition for it in {@link net.rifttech.baldr.player.tracker.impl.ActionTracker}
-             */
-            movementSpeed *= 1.3;
+            if(actionTracker.isSprinting()) {
+                movementSpeed *= 1.3;
 
-            if (getMoveAngle(from, to) > 90) // The player is sprinting in another direction
-                movementSpeed /= 1.05;
+                if (getMoveAngle(from, to) > 90) // The player is sprinting in another direction
+                    movementSpeed /= 1.05;
+            }
 
             movementSpeed *= 0.16277136 / Math.pow(blockFriction, 3);
 
@@ -70,11 +70,12 @@ public class SpeedA extends PositionCheck {
         double speedup = (offsetH - lastOffsetH) / movementSpeed;
 
         if (speedup > 1D && !movementTracker.isTeleporting()) {
-            if ((violations += 10) > 45) {
+            if ((violations += 10) > 55) {
+                violations = 0;
                 alert(player, String.format("P %d%%", Math.round(speedup * 100D)));
             }
         } else {
-            decreaseVl(1);
+            decreaseVl(2);
         }
 
         BlockPosition blockPosition = new BlockPosition(

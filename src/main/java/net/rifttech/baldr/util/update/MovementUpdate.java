@@ -8,4 +8,5 @@ import net.rifttech.baldr.util.location.CustomLocation;
 @RequiredArgsConstructor
 public class MovementUpdate {
     private final CustomLocation from, to;
+
 }

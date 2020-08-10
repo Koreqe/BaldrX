@@ -45,7 +45,7 @@ public class CommandListener implements Listener {
 
         sb.append("\n");
 
-        sb.append("§4[AntiCheat] §cCommands").append("\n");
+        sb.append("§4[BaldrX] §cCommands").append("\n");
 
         commandManager.getCommands().forEach(command -> {
             String message = String.format(" §7- §c/%s §7- %s", command.getName(), command.getDescription());

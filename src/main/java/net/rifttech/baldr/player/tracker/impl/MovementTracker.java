@@ -19,10 +19,12 @@ import java.util.LinkedList;
 
 @Getter
 public class MovementTracker extends PlayerTracker {
-    private CustomLocation lastLocation;
+    private CustomLocation loc, lastLocation;
     private CustomLocation teleportLocation;
 
     private final Deque<Velocity> velocities = new LinkedList<>();
+
+    private final ActionTracker actionTracker = playerData.getActionTracker();
 
     private boolean resetTeleport;
 
@@ -35,6 +37,8 @@ public class MovementTracker extends PlayerTracker {
 
         boolean moved = flying.g();
         boolean looked = flying.h();
+
+        actionTracker.setLastAttackTicks(actionTracker.getLastAttackTicks() + 1);
 
         if (lastLocation != null) {
             if (!moved) {
@@ -52,10 +56,10 @@ public class MovementTracker extends PlayerTracker {
                     location.getY() != lastLocation.getY() ||
                     location.getZ() != lastLocation.getZ()) {
                 if (player.getGameMode() == GameMode.SURVIVAL) {
-                    playerData.getCheckData().getPositionChecks()
-                            .forEach(check -> check.handle(player, new MovementUpdate(lastLocation, location)));
+                    playerData.getCheckData().getPositionChecks().forEach(check -> check.handle(player, new MovementUpdate(lastLocation, location)));
                 }
             }
+            this.loc = location;
         }
 
         if (moved && resetTeleport) {

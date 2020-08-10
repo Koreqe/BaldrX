@@ -1,7 +1,9 @@
 package net.rifttech.baldr.player.tracker.impl;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.PacketPlayInBlockDig;
+import net.minecraft.server.v1_8_R3.PacketPlayInEntityAction;
 import net.minecraft.server.v1_8_R3.PacketPlayInUseEntity;
 import net.rifttech.baldr.Baldr;
 import net.rifttech.baldr.player.PlayerData;
@@ -15,7 +17,14 @@ import org.bukkit.entity.Player;
 public class ActionTracker extends PlayerTracker {
     private boolean digging;
 
+    private boolean sprinting;
+    private boolean sneaking;
+
     private PlayerData lastTargetData;
+
+    private Player target;
+    @Setter
+    private int lastAttackTicks;
 
     public ActionTracker(Player player, PlayerData playerData) {
         super(player, playerData);
@@ -33,6 +42,10 @@ public class ActionTracker extends PlayerTracker {
 
         if (entity instanceof Player) {
             Player entityPlayer = (Player) entity;
+
+            target = entityPlayer;
+
+            lastAttackTicks = 0;
 
             lastTargetData = Baldr.getInstance().getPlayerDataManager().getData(entityPlayer);
         } else {
@@ -52,6 +65,22 @@ public class ActionTracker extends PlayerTracker {
             case STOP_DESTROY_BLOCK:
             case ABORT_DESTROY_BLOCK:
                 digging = false;
+                break;
+        }
+    }
+    public void handleEntityAction(PacketPlayInEntityAction entityAction) {
+        switch (entityAction.b()) {
+            case START_SNEAKING:
+                sneaking = true;
+                break;
+            case STOP_SNEAKING:
+                sneaking = false;
+                break;
+            case START_SPRINTING:
+                sprinting = true;
+                break;
+            case STOP_SPRINTING:
+                sprinting = false;
                 break;
         }
     }

@@ -5,9 +5,9 @@ import net.rifttech.baldr.command.Command;
 import net.rifttech.baldr.manager.AlertManager;
 import org.bukkit.entity.Player;
 
-public class AlertsCommand extends Command {
-    public AlertsCommand() {
-        super("alerts", "Toggles violation alerts");
+public class CreditsCommand extends Command {
+    public CreditsCommand() {
+        super("credits", "shows credits");
     }
 
     @Override
@@ -17,6 +17,6 @@ public class AlertsCommand extends Command {
         alertManager.toggleAlerts(sender);
 
         boolean hasAlerts = alertManager.getAlerts().contains(sender.getUniqueId());
-        sender.sendMessage("§4[BaldrX] §7Alerts have been toggled " + (hasAlerts ? "§aON" : "§cOFF"));
+        sender.sendMessage("§4BaldrX by Simon & Johannes");
     }
 }
