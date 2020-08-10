@@ -39,8 +39,6 @@ public class ReachA extends PacketCheck {
                     && !player.getGameMode().equals(GameMode.CREATIVE)
                     && playerData.getEntityPastLocations().getPreviousLocations().size() >= 10) {
 
-                Player target = actionTracker.getTarget();
-
                 Vector origin = player.getLocation().toVector();
 
                 List<Vector> pastLocation = playerData.entityPastLocations.getEstimatedLocation(connectionTracker.getTransactionPing(), System.currentTimeMillis(), 125 + Math.abs(connectionTracker.getTransactionPing() - connectionTracker.getLastTransactionPing())).stream().map(CustomLocation::toVector).collect(Collectors.toList());
